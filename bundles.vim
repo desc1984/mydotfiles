@@ -78,13 +78,6 @@ let g:neocomplcache_disable_auto_complete=1
 let g:neocomplcache_min_syntax_length=3
 set completeopt-=preview
 
-"""""""""""""""
-" BufExplorer “
-"""""""""""""""
-let g:bufExplorerSplitVertSize = 30  " Split width
-let g:bufExplorerSplitRight=0        " Split left.
-let g:bufExplorerSortBy='mru'        " Sort by most recently used.
-
 """""""""""
 " TagList "
 """""""""""
@@ -106,5 +99,5 @@ nmap <F7> :NERDTreeToggle<CR>
 """"""""""""
 " SuperTab "
 """"""""""""
-let g:SuperTabRetainCompletionType = 2
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+let g:SuperTabRetainCompletiontype = 2
+let g:supertabdefaultcompletionType = "<C-X><C-U>"
