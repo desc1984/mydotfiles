@@ -4,7 +4,7 @@
 " Version
 "   1.3
 " Update Time
-"   2012.10.26
+"   2012.10.27
 "
 " Wish you have a good vim tour!
 """"""""""""""""""""""""""""""""""
@@ -12,8 +12,12 @@
 """""""""""""
 "  General  "
 """""""""""""
+" Show numbers
 set nu
 set nocompatible
+
+" Show messagebox when need confirm
+set confirm
 
 filetype off
 " Enable filetype plugins
@@ -66,11 +70,20 @@ set ruler
 " Height of the command bar
 set cmdheight=2
 
+"show matching bracket for 0.2 seconds
+set matchtime=2
+
+" highlight current line
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+set cursorline cursorcolumn
+
 """"""""""""""""
 "  Color&View  "
 """"""""""""""""
 " Enable syntax highlighting
 syntax enable
+syntax on
 
 "close gui
 set go=
@@ -82,7 +95,11 @@ if g:iswindows==1
     "set guifontwide=NSimSun-18030,NSimSun
     set termencoding=GBK
 else
-    colorscheme ir_black
+    if has("gui_running")
+        color vividchalk
+    else
+        colorscheme Tomorrow
+    endif
     set guifont=DejaVu\ Sans\ Mono\ 11.5
     set termencoding=utf-8
 endif
@@ -128,7 +145,11 @@ map <leader>tc :tabclose<cr>
 "set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
+" Default Indentation
+set autoindent
+set smartindent
 set shiftwidth=4
+set tabstop=4
 set expandtab
 
 " Return to last edit position when opening files (You want this!)
@@ -137,110 +158,32 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-"""""""""""""""""
-"  Status line  " 
-"""""""""""""""""
+""""""""""""""""
+"  Status line " 
+""""""""""""""""
 " Always show the status line
 set laststatus=2
 
 " Format the status line
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
 
-""""""""""""""""
-" Tag & Cscope "
-""""""""""""""""
+"""""""""""""""""""
+" Program & Debug "
+"""""""""""""""""""
+"QuickFix key map
+nmap <leader>cn :cn<cr>
+nmap <leader>cp :cp<cr>
+nmap <leader>cw :cw 10<cr>
+
+"Load project settings
 if filereadable("project.vim")
     source project.vim
 endif
 
-""""""""""
-" Vundle "
-""""""""""
- set rtp+=~/.vim/bundle/vundle/
- call vundle#rc()
-
- " let Vundle manage Vundle
- " required! 
- Bundle 'gmarik/vundle'
-
- " My Bundles here:
- "
- " original repos on github
- Bundle 'scrooloose/nerdtree'
- Bundle 'Shougo/neocomplcache'
- "Bundle 'myusuf3/numbers.vim'
- "Bundle 'spf13/PIV'
- Bundle 'spf13/vim-colors'
- "Bundle 'Lokaltog/vim-easymotion'
- " vim-scripts repos
- Bundle 'taglist.vim'
- Bundle 'vimwiki'
- Bundle 'blackboard.vim'
- "Bundle 'genutils'
- "Bundle 'lookupfile'
- "Bundle 'bufexplorer.zip'
- Bundle 'SuperTab'
- Bundle 'ShowMarks'
- Bundle 'matchit.zip'
- Bundle 'minibufexpl.vim'
- "Bundle 'ZenCoding.vim'
- "Bundle 'c.vim'
- "Bundle 'Markdown'
- " non github repos
- " ...
-
- filetype plugin indent on     " required!
- "
- " Brief help
- " :BundleList          - list configured bundles
- " :BundleInstall(!)    - install(update) bundles
- " :BundleSearch(!) foo - search(or refresh cache first) for foo
- " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
- "
- " see :h vundle for more details or wiki for FAQ
- " NOTE: comments after Bundle command are not allowed..
-
-"""""""""""""
-"  vimwiki  "
-"'"""""""""""
-let g:vimwiki_use_mouse = 1
-let g:vimwiki_CJK_length = 1
-let g:vimwiki_camel_case = 0
-if g:iswindows==1
-	let g:vimwiki_list = [{'path': 'E:/Dropbox/wiki/',
-				\ 'path_html': 'D:/wamp/www/html/',
-				\ 'html_header': 'D:/wamp/www/html/template/header.tpl',
-				\ 'html_footer': 'D:/wamp/www/html/template/footer.tpl'}]
-else
-	let g:vimwiki_list = [{'path': '/media/storage/Dropbox/Wiki/'}]
-endif
-
-"""""""""""""""
-" BufExplorer “
-"""""""""""""""
-let g:bufExplorerSplitVertSize = 30  " Split width
-let g:bufExplorerSplitRight=0        " Split left.
-let g:bufExplorerSortBy='mru'        " Sort by most recently used.
-
 """""""""""
-" TagList "
+" Plugins "
 """""""""""
-let Tlist_Exit_OnlyWindow = 1
-"let Tlist_Show_One_File = 1
-nmap <F6> :TlistToggle<CR>
-
-""""""""""""
-" NERDTree "
-""""""""""""
-"autocmd VimEnter * NERDTree
-let NERDTreeWinPos = "right"
-nmap <F7> :NERDTreeToggle<CR>
-
-""""""""""""
-" SuperTab "
-""""""""""""
-let g:SuperTabRetainCompletionType = 2
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+source ~/.vim/bundles.vim
 
 """"""""""""""
 "  Functions "
@@ -253,3 +196,11 @@ function! HasPaste()
     return ''
 endfunction
 
+"""""""""""""""""""
+" omni completion "
+"""""""""""""""""""
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType c setlocal omnifunc=ccomplete#Complete
