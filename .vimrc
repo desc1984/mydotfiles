@@ -72,25 +72,34 @@ set cmdheight=2
 " Enable syntax highlighting
 syntax enable
 
-if has("gui_running")
-    colorscheme darkblue
+"close gui
+set go=
+
+if g:iswindows==1
+    "colorscheme darkblue
+    colorscheme ir_black
+    set guifont=Courier_New:h12:w4
+    "set guifontwide=NSimSun-18030,NSimSun
+    set termencoding=GBK
 else
-    colorscheme blackboard
+    colorscheme ir_black
+    set guifont=DejaVu\ Sans\ Mono\ 11.5
+    set termencoding=utf-8
+endif
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions+=e
+    set t_Co=256
+    set guitablabel=%M\ %t
 endif
 
 " Enable search highlight
 set hlsearch
 
-set guifont=Courier_New:h12:w7
-set guifontwide=NSimSun-18030,NSimSun
-
 " Avoding Garbled
 set encoding=utf-8
-if g:iswindows==1
-	set termencoding=GBK
-else
-	set termencoding=utf-8
-endif
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set langmenu=zh_CN.utf-8
@@ -161,17 +170,19 @@ endif
  Bundle 'Shougo/neocomplcache'
  "Bundle 'myusuf3/numbers.vim'
  "Bundle 'spf13/PIV'
- "Bundle 'spf13/vim-colors'
+ Bundle 'spf13/vim-colors'
  "Bundle 'Lokaltog/vim-easymotion'
  " vim-scripts repos
  Bundle 'taglist.vim'
  Bundle 'vimwiki'
  Bundle 'blackboard.vim'
- Bundle 'genutils'
- Bundle 'lookupfile'
- Bundle 'bufexplorer.zip'
+ "Bundle 'genutils'
+ "Bundle 'lookupfile'
+ "Bundle 'bufexplorer.zip'
  Bundle 'SuperTab'
- "Bundle 'minibufexpl.vim'
+ Bundle 'ShowMarks'
+ Bundle 'matchit.zip'
+ Bundle 'minibufexpl.vim'
  "Bundle 'ZenCoding.vim'
  "Bundle 'c.vim'
  "Bundle 'Markdown'
